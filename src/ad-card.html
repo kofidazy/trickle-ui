@@ -1,0 +1,177 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="ad-card">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      .box{
+        height: 300px;
+      }
+    </style>
+    <style is="custom-style iron-flex iron-flex-alignment">
+    paper-card{
+      min-height: 150px;
+      /*max-width: 300px;*/
+    }
+      paper-card.rate { 
+        @apply(--layout-horizontal); 
+    }
+    
+      .rate-image {
+        width: 60%;
+        height: 140px;
+        background: url('http://ecx.images-amazon.com/images/I/41EWkstrQsL.jpg');
+        background-size: cover;
+      }
+      .rate-content {
+        @apply(--layout-flex);
+        float: left;
+      }
+      .rate-header { @apply(--paper-font-headline); }
+      .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+
+      .vert{
+        @apply(--layout-vertical);
+      }
+
+      .horizon{
+        @apply(--layout-horizontal)
+      }
+
+      .flex2{
+        @apply(--layout-flex-2);
+      }
+      .flex1{
+        @apply(--layout-flex-1);
+      }
+
+      .flex{
+        @apply(--layout-flex);
+      }
+
+      .flex-10{
+        @apply(--layout-flex-10);
+      }
+
+      .flex-7{
+        @apply(--layout-flex-7);
+      }
+
+
+      .post-padding{
+        padding: 10px;
+      }
+      .handle{
+        color: #98a7b2;
+      }
+      .bolder{
+        font-weight: 700;
+      }
+      .img-box{
+        max-width: 650px;
+      }
+      .thumb{
+        max-height: 70px;
+        max-width: 70px;
+      }
+      .max-stretch{
+        max-width: 600px;
+      }
+      .big-font{
+        font-size: 25px;
+      }
+    </style>
+<paper-card elevation="0" heading="{{price}}" image="http://cdn4.mos.techradar.futurecdn.net//art/AAevents/01_iPhone7/Screengrabs/iPhone7-rosegold-650-80.jpg" class="white">
+  <div on-tap="toggle" class="horizon card-content"><span>{{title}}</span><span class="flex"></span><iron-icon icon="vaadin-icons:{{switch}}"></iron-icon></div>
+  <div class="card-actions">
+    <iron-collapse id="collapse">
+      <div>
+        iPhone 7 dramatically improves the most important aspects of the iPhone experience. 
+        It introduces advanced new camera systems. The best performance and battery life ever in an iPhone.
+        Immersive stereo speakers. The brightest, most colorful iPhone display.
+        Splash and water resistance.1 And it looks every bit as powerful as it is.
+        This is iPhone 7.
+      </div>
+    </iron-collapse>
+  </div>
+</paper-card>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ad-card',
+      properties:{
+        title : {
+          type : String,
+          value : ""
+        },
+        description : {
+          type : String,
+          value : ""
+        },
+        images: {
+          type : Array,
+          value : []
+        },
+        price : {
+          type : String,
+          value : ""
+        },
+        inStock:{
+          type : Number,
+          value : 0
+        },
+        onSale:{
+          type : Boolean,
+          value : false
+        },
+        tag : {
+          type : String,
+          value : ""
+        },
+        switch : {
+          type : String,
+          value : "angle-down",
+          notify : true
+        }
+      },
+      ready : function(){
+      },
+      toggle: function() {
+        this.$.collapse.toggle();
+        this.toggle_icon();
+      },
+      toggle_icon : function(){
+        if (this.switch == 'angle-down') {
+          this.switch = 'angle-up';
+        } else {
+          this.switch = 'angle-down';
+        }
+      }
+    });
+  </script>
+</dom-module>

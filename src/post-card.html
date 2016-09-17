@@ -1,0 +1,177 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="post-card">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      .box{
+        height: 300px;
+      }
+    </style>
+    <style is="custom-style iron-flex iron-flex-alignment">
+    paper-card{
+      min-height: 150px;
+/*      max-width: 750px;
+*/    }
+      paper-card.rate { 
+        @apply(--layout-horizontal); 
+      }
+    
+      .rate-image {
+        width: 60%;
+        height: 140px;
+        background: url('http://ecx.images-amazon.com/images/I/41EWkstrQsL.jpg');
+        background-size: cover;
+      }
+      .rate-content {
+        @apply(--layout-flex);
+        float: left;
+      }
+      .rate-header { @apply(--paper-font-headline); }
+      .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+      .vert{
+        @apply(--layout-vertical);
+      }
+      .horizon{
+        @apply(--layout-horizontal)
+      }
+      .flex2{
+        @apply(--layout-flex-2);
+      }
+      .flex1{
+        @apply(--layout-flex-1);
+      }
+      .flex{
+        @apply(--layout-flex);
+      }
+
+      .flex-10{
+        @apply(--layout-flex-10);
+      }
+
+      .flex-7{
+        @apply(--layout-flex-7);
+      }
+      .flex-6{
+        @apply(--layout-flex-6);
+      }
+      .flex-5{
+        @apply(--layout-flex-5);
+      }
+      .post-padding{
+        padding: 10px;
+      }
+      .handle{
+        color: #98a7b2;
+      }
+      .bolder{
+        font-weight: 700;
+      }
+      .img-box{
+        max-width: 650px;
+      }
+      .thumb{
+        --iron-image-height: 50px;
+        --iron-image-width: 100%;
+      }
+      .max-stretch{
+        max-width: 600px;
+      }
+
+      .fill{
+        width: 100%;
+      }
+      .contain{
+        width: 50px;
+        margin-right: 10px;
+      }
+      .placeholder{
+        --iron-image-placeholder: {
+        background: #eee;
+        };
+      }
+    </style>
+    <paper-card class="vert">
+      <div class="post-padding">
+          <div class="horizon">
+            <span class="contain">
+              <iron-image preload fade class="thumb placeholder" src="https://api.adorable.io/avatars/213/abott@adorable.io.png"></iron-image>
+            </span>
+            <span class="flex-6 bolder">Nana K <span class="handle">@tricklebot</span></span>
+            <span class="flex"></span><span class="flex-2 bolder">2min</span>
+          </div>
+          <p class="flex">#someTastyFood Let's just get ready @foodwars @naijajollof @ghanajollof @jollof</p>
+          <div class="flex">
+            <img class="fill placeholder flex" src="http://thecatapi.com/api/images/get?format=src&type=gif"> 
+          </div>
+          <!-- <iron-image class="fill" src="../images/bixel.jpg" sizing="cover"></iron-image> -->
+          <paper-item><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><iron-icon class="flex" icon="vaadin-icons:comment"></iron-icon><iron-icon class="flex" icon="vaadin-icons:heart"></iron-icon></paper-item>
+      </div>
+    </paper-card>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'post-card',
+      properties:{
+        title : {
+          type : String,
+          value : ""
+        },
+        description : {
+          type : String,
+          value : ""
+        },
+        images: {
+          type : Array,
+          value : []
+        },
+        price : {
+          type : String,
+          value : ""
+        },
+        inStock:{
+          type : Number,
+          value : 0
+        },
+        onSale:{
+          type : Boolean,
+          value : false
+        },
+        tag : {
+          type : String,
+          value : ""
+        }
+      },
+      ready : function(){
+
+      }
+
+    });
+  </script>
+</dom-module>
