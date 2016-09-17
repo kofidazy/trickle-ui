@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
@@ -19,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="post-card">
@@ -114,6 +116,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background: #eee;
         };
       }
+      paper-button{
+        background-color: #607D8B;
+        color: #fff;
+      }
+
+      paper-item{
+        --paper-item-selected :{
+          background-color : white;
+        };
+        --paper-item-focused : {
+           background-color : white;
+        };
+      }
+      .sector{
+        height: 42px;
+        width: 100%;
+        padding: 5px;
+      }
+
+      .icon-tap{
+        color: #2b2d42;
+      }
+      iron-icon{
+        color: #607D8B;
+      }
+      .like{
+        color: #ef233c;
+      }
+      .count{
+        color: #78909C;
+      }
     </style>
     <paper-card class="vert">
       <div class="post-padding">
@@ -129,7 +162,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <img class="fill placeholder flex" src="http://thecatapi.com/api/images/get?format=src&type=gif"> 
           </div>
           <!-- <iron-image class="fill" src="../images/bixel.jpg" sizing="cover"></iron-image> -->
-          <paper-item><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><iron-icon class="flex" icon="vaadin-icons:comment"></iron-icon><iron-icon class="flex" icon="vaadin-icons:heart"></iron-icon></paper-item>
+          <div class="horizon sector">
+            <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><span class="flex count">90</span></span>
+            <span class="horizon flex"><iron-icon id="comment_c" on-tap="toggle" class="flex" icon="vaadin-icons:comment"></iron-icon><span class="flex count">40</span></span>
+            <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">2K</span></span>
+          </div>
+        <iron-collapse id="collapse">
+          <paper-textarea class="fill" label="Comment"></paper-textarea>
+          <paper-button raised label="Comment" class="fill">Comment</paper-button>
+        </iron-collapse>
       </div>
     </paper-card>
 
@@ -166,10 +207,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tag : {
           type : String,
           value : ""
+        },
+        color : {
+          type : String,
+          value : "flex",
+          notify:true
         }
       },
       ready : function(){
 
+      },
+      toggle: function() {
+        this.$.collapse.toggle();
+        this.classColor("icon-tap");
+      },
+      toggle_icon : function(){
+        var plain = this.$.comment_o;
+        var colored = this.$.comment_o;
+        colored.hidden = !colored.hidden;
+        plain.hidden = !plain.hidden;
+      },
+      classColor: function(color) {
+        return 'flex '+color || 'flex';
       }
 
     });

@@ -35,6 +35,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style is="custom-style iron-flex iron-flex-alignment">
     paper-card{
       min-height: 150px;
+      margin-top: 0px;
+      margin-bottom: 0px;
       /*max-width: 300px;*/
     }
       paper-card.rate { 
@@ -107,7 +109,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 <paper-card elevation="0" heading="{{price}}" image="http://cdn4.mos.techradar.futurecdn.net//art/AAevents/01_iPhone7/Screengrabs/iPhone7-rosegold-650-80.jpg" class="white">
   <div on-tap="toggle" class="horizon card-content"><span>{{title}}</span><span class="flex"></span><iron-icon icon="vaadin-icons:{{switch}}"></iron-icon></div>
-  <div class="card-actions">
+  <div class="post-padding">
     <iron-collapse id="collapse">
       <div>
         iPhone 7 dramatically improves the most important aspects of the iPhone experience. 
