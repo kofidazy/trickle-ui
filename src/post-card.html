@@ -136,7 +136,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .icon-tap{
-        color: #2b2d42;
+        color: red;
       }
       iron-icon{
         color: #607D8B;
@@ -146,6 +146,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       .count{
         color: #78909C;
+        font-weight: 600;
       }
     </style>
     <paper-card class="vert">
@@ -165,7 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="horizon sector">
             <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><span class="flex count">90</span></span>
             <span class="horizon flex"><iron-icon id="comment_c" on-tap="toggle" class="flex" icon="vaadin-icons:comment"></iron-icon><span class="flex count">40</span></span>
-            <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">2K</span></span>
+            <span class="horizon flex"><iron-icon id="like" on-tap="like" class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">2K</span></span>
           </div>
         <iron-collapse id="collapse">
           <paper-textarea class="fill" label="Comment"></paper-textarea>
@@ -219,7 +220,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       toggle: function() {
         this.$.collapse.toggle();
-        this.classColor("icon-tap");
+        this.toggleClass("icon-tap",true,this.$.comment_c);
       },
       toggle_icon : function(){
         var plain = this.$.comment_o;
@@ -229,6 +230,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       classColor: function(color) {
         return 'flex '+color || 'flex';
+      },
+      like : function(){
+        this.toggleClass("icon-tap",true,this.$.like);
       }
 
     });
