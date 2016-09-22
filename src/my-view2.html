@@ -10,6 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/web-socket/web-socket.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
 
 <dom-module id="my-view2">
   <template>
@@ -23,15 +27,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="card">
       <div class="circle">2</div>
-      <h1>View Two</h1>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-      <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+      <h1>Web Sockets</h1>
+      <p>Web Socket test with <code>ws://echo.websocket.org</code></p>
+      <paper-input id="sock" value={{sock_data}}></paper-input><paper-button on-tap="_send" raised>send</paper-button>
+      <web-socket url="ws://echo.websocket.org"
+        id="socket"
+        auto
+        on-open="_onOpen"
+        on-close="_onClose"
+        on-message="_onMessage"
+        on-error="_onError">
+      </web-socket>
     </div>
   </template>
 
   <script>
     Polymer({
-      is: 'my-view2'
+      is: 'my-view2',
+      properties : {
+        sock_data : {
+          type : String,
+          value : "",
+          notify : true
+        }
+      },
+       _toast : function(data){
+      (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'mysignal', data: data});
+      },
+      _onOpen : function(e,data){
+        this._toast("Connection opened");
+        console.log("Connection opened: "+data);
+      },      
+      _onClose : function(e,data){
+        this._toast("Connection closed");
+        console.log("Connection closed: "+data);
+      },
+      _onMessage : function(e,data){
+        this._toast("Server : "+data);
+        console.log("New Message: "+data);
+
+      },
+      _onError : function(e,data){
+        this._toast("Connection error");
+        console.log("Connection error: "+data);
+      },
+      _send : function(){
+        this.$.socket.send(this.sock_data);
+      }
+
     });
   </script>
 </dom-module>

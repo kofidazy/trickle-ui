@@ -1,4 +1,4 @@
-<!--
+    <!--
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -12,7 +12,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
@@ -20,11 +19,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
-<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
-<link rel="import" href="../bower_components/iron-swipeable-container/iron-swipeable-container.html">
+
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="post-card">
+<dom-module id="modal-card">
   <template>
     <style include="shared-styles">
       :host {
@@ -38,8 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style is="custom-style iron-flex iron-flex-alignment">
     paper-card{
       min-height: 150px;
-/*      max-width: 750px;
-*/    }
+      max-width: 750px;
+    }
       paper-card.rate { 
         @apply(--layout-horizontal); 
       }
@@ -79,12 +77,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .flex-7{
         @apply(--layout-flex-7);
       }
-      .flex-6{
-        @apply(--layout-flex-6);
-      }
-      .flex-5{
-        @apply(--layout-flex-5);
-      }
       .post-padding{
         padding: 10px;
       }
@@ -98,39 +90,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         max-width: 650px;
       }
       .thumb{
-        --iron-image-height: 50px;
-        --iron-image-width: 100%;
+        max-height: 70px;
+        max-width: 70px;
       }
       .max-stretch{
         max-width: 600px;
       }
-
+      .left{
+        float: left;
+      }
       .fill{
         width: 100%;
       }
-      .contain{
-        width: 50px;
-        margin-right: 10px;
-      }
-      .placeholder{
-        --iron-image-placeholder: {
-        background: #eee;
-        };
-      }
-      paper-button{
-        background-color: #607D8B;
-        color: #fff;
-      }
-
-      paper-item{
-        --paper-item-selected :{
-          background-color : white;
-        };
-        --paper-item-focused : {
-           background-color : white;
-        };
-      }
-      .sector{
+            .sector{
         height: 42px;
         width: 100%;
         padding: 5px;
@@ -150,37 +122,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: 600;
       }
     </style>
-    <paper-card class="vert">
-      <div class="post-padding">
-          <div class="horizon" on-tap="_fireModal">
-            <span class="contain">
-              <iron-image preload fade class="thumb placeholder" src="https://api.adorable.io/avatars/213/abott@adorable.io.png"></iron-image>
-            </span>
-            <span class="flex-6 bolder">Nana K <span class="handle">@tricklebot</span></span>
-            <span class="flex"></span><span class="flex-2 bolder">2min</span>
+    <paper-dialog id="diag" modal>
+      <paper-dialog-scrollable>
+        <div class="vert flex">
+          <div class="horizon flex">
+            <iron-image src="{{profile_image}}" width=150 height=150 class="left" preload sizing="cover"></iron-image><span class="flex"></span><iron-icon class="flex" on-tap="close" icon="vaadin-icons:close"></iron-icon>
           </div>
-          <p class="flex">#someTastyFood Let's just get ready @foodwars @naijajollof @ghanajollof @jollof</p>
+          <div class="flex">{{description}}</div>
           <div class="flex">
-            <img class="fill placeholder flex" src="http://thecatapi.com/api/images/get?format=src&type=gif"> 
+            <iron-image src="{{image}}" class="fill" preload sizing="cover"></iron-image>
           </div>
-          <!-- <iron-image class="fill" src="../images/bixel.jpg" sizing="cover"></iron-image> -->
           <div class="horizon sector">
             <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><span class="flex count">90</span></span>
             <span class="horizon flex"><iron-icon id="comment_c" on-tap="toggle" class="flex" icon="vaadin-icons:comment"></iron-icon><span class="flex count">40</span></span>
             <span class="horizon flex"><iron-icon id="like" on-tap="like" class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">2K</span></span>
           </div>
-        <iron-collapse id="collapse">
-          <paper-textarea class="fill" label="Comment"></paper-textarea>
-          <paper-button raised label="Comment" class="fill">Comment</paper-button>
-        </iron-collapse>
-      </div>
-    </paper-card>
+        </div>
+      </paper-dialog-scrollable>
+    </paper-dialog>
 
   </template>
 
   <script>
     Polymer({
-      is: 'post-card',
+      is: 'modal-card',
       properties:{
         title : {
           type : String,
@@ -192,15 +157,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value : "",
           notify : true
         },
-        images: {
+        profile_image : {
+          type : String,
+          value : "",
+          notify : true
+        },
+        comments: {
           type : Array,
           value : [],
           notify : true
         },
         price : {
           type : String,
-          value : "",
-          notify : true
+          value : ""
         },
         inStock:{
           type : Number,
@@ -213,37 +182,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         tag : {
           type : String,
-          value : "",
-          notify : true
-        },
-        color : {
-          type : String,
-          value : "flex",
-          notify:true
+          value : ""
         }
       },
       ready : function(){
-
       },
-      toggle: function() {
-        this.$.collapse.toggle();
-        this.toggleClass("icon-tap",true,this.$.comment_c);
+      open : function(){
+        this.$.diag.open();
       },
-      _fireModal : function(data){
-        (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'modal', data: data});
+      close : function(){
+        this.$.diag.close();
       },
-      toggle_icon : function(){
-        var plain = this.$.comment_o;
-        var colored = this.$.comment_o;
-        colored.hidden = !colored.hidden;
-        plain.hidden = !plain.hidden;
-      },
-      classColor: function(color) {
-        return 'flex '+color || 'flex';
-      },
-      like : function(){
-        this.toggleClass("icon-tap",true,this.$.like);
+      consoleprint : function(){
+        console.log("hello");
       }
     });
   </script>
 </dom-module>
+
+

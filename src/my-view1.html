@@ -18,9 +18,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">  
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" src="../bower_components/paper-fab-menu/paper-fab-menu.html">
+<link rel="import" src="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="post-card.html">
+<link rel="import" href="post-card-mid.html">
 <link rel="import" href="profile-card.html">
+<link rel="import" href="profile-card-mid.html">
 <link rel="import" href="trending-card.html">
 <link rel="import" href="ad-card.html">
 <link rel="import" href="sign-in-card.html">
@@ -56,10 +59,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * @param  (min-width: 280px) and (max-width: 800px)
        * @return hides ad-section
        */
-      @media screen and (min-width: 280px) and (max-width: 800px) {
+      @media screen and (min-width: 230px) and (max-width: 800px) {
         #ad-section{
           display: none;
         }
+        .hide{
+          display: none;
+        }
+      }
+
+      @media screen and (min-width: 800px) and (max-width: 4800px) {
+        .hide{
+          display: none;
+        }
+      }
+
+      @media screen and (min-width: 100px) and (max-width: 230px) {
+        :host {
+          display: block;
+          padding: 0px;
+        }
+        trending-card{
+          display: none;
+        }
+        #profile{
+          display: none;
+        }
+        .posts{
+          display: none;
+        }
+
+      }
+
+      paper-material {
+        min-height: 300px;
+        position: relative;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      paper-fab-menu{
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
       }
     </style>
 <!--     <template is="dom-repeat" items={{array}} 
@@ -69,28 +110,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="layout horizontal wrap">
       <div class="flex3">
         <sign-in-card class="flex"></sign-in-card>
-        <profile-card></profile-card>
-        <trending-card></trending-card>
+        <profile-card-mid class="hide"></profile-card-mid>
+        <profile-card id="profile"></profile-card>
+
+        <trending-card ></trending-card>
       </div>
       <div class="flex6">
-      <post-card class=""></post-card>
-      <post-card class=""></post-card>
-      <post-card class=""></post-card>
-      <post-card class=""></post-card>
+      <div class="posts">
+        <post-card></post-card>
+        <post-card></post-card>
+        <post-card></post-card>
+        <post-card></post-card>
+      </div>
+      <div class="hide">
+        <post-card-mid></post-card-mid>
+        <post-card-mid></post-card-mid>
+        <post-card-mid></post-card-mid>
+        <post-card-mid></post-card-mid>
+      </div>
       </div>
       <div id="ad-section" class="flex3">
-        
           <ad-card title="iphone7" price="$599"></ad-card>
           <ad-card title="iphone7" price="$499"></ad-card>
-        
       </div>
       </div>
     <!-- </template> -->
-    <paper-fab-menu icon="add" position="vertical">
-      <paper-fab-menu-item label="Polymer" icon="polymer" ></paper-fab-menu-item>
-      <paper-fab-menu-item label="Favorites" icon="star" ></paper-fab-menu-item>
-      <paper-fab-menu-item label="Refresh" icon="refresh" ></paper-fab-menu-item>
-    </paper-fab-menu>
     <iron-ajax
       id="products_ajax"
       auto
@@ -124,7 +168,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       error_handler : function(){
         var response = this.$.products_ajax.lastResponse;
         console.error(response);
-      }
+      },
+      _fireModal : function(data){
+        (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'modal', data: data});
+      },
     });
   </script>
 </dom-module>

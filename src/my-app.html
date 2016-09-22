@@ -27,6 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
   <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
   <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+  <link rel="import" href="../bower_components/paper-material/paper-material.html">
   <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
   <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
   <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
@@ -36,6 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-signals/iron-signals.html">
 <link rel="import" href="my-icons.html">
+<link rel="import" href="modal-card.html">
 
 
 <dom-module id="my-app">
@@ -175,7 +177,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-toast id="terrible"></paper-toast>
     <paper-toast id="info"></paper-toast>
     <iron-signals on-iron-signal-mysignal="_handleEvent"></iron-signals>
-    <iron-signals on-iron-signal-akyra="_handleakyra"></iron-signals>
+    <iron-signals on-iron-signal-modal="_handleModal"></iron-signals>
+    <modal-card id="modal"></modal-card>
 
   </template>
 
@@ -217,7 +220,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.terrible.open();
       },
       _toast : function(data){
-      (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'mysignal', data: data});
+        (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'mysignal', data: data});
+      },
+      _handleModal : function(e,data){
+        this.$.modal.description = data;
+        console.log(data);
+        this.$.modal.open();
       }
     });
   </script>

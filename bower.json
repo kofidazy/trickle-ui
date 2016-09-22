@@ -31,7 +31,9 @@
     "app-elements": "PolymerElements/app-elements#^0.10.0",
     "paper-fab-menu": "paperfabmenu#^1.0.2",
     "vaadin-icons": "^1.0.2",
-    "iron-signals": "PolymerElements/iron-signals#^1.0.3"
+    "iron-signals": "PolymerElements/iron-signals#^1.0.3",
+    "x-websocket": "^0.2.0",
+    "web-socket": "*"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

@@ -1,4 +1,4 @@
-    <!--
+<!--
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -20,12 +20,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="post-card">
+<dom-module id="profile-card-mid">
   <template>
     <style include="shared-styles">
       :host {
         display: block;
-        padding: 10px;
+        padding: 0px;
       }
       .box{
         height: 300px;
@@ -33,12 +33,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <style is="custom-style iron-flex iron-flex-alignment">
     paper-card{
-      min-height: 150px;
-      max-width: 750px;
+      max-height: 150px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-bottom: thin solid #eee;
+      /*max-width: 300px;*/
     }
       paper-card.rate { 
         @apply(--layout-horizontal); 
-      }
+    }
     
       .rate-image {
         width: 60%;
@@ -52,18 +55,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       .rate-header { @apply(--paper-font-headline); }
       .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+
       .vert{
         @apply(--layout-vertical);
       }
+
       .horizon{
         @apply(--layout-horizontal)
       }
+
       .flex2{
         @apply(--layout-flex-2);
       }
       .flex1{
         @apply(--layout-flex-1);
       }
+
       .flex{
         @apply(--layout-flex);
       }
@@ -76,7 +83,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-flex-7);
       }
       .post-padding{
-        padding: 10px;
+        padding: 5px;
       }
       .handle{
         color: #98a7b2;
@@ -94,33 +101,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .max-stretch{
         max-width: 600px;
       }
-      .left{
-        float: left;
+      .big-font{
+        font-size: 25px;
       }
       .fill{
         width: 100%;
       }
+      .placeholder{
+        --iron-image-placeholder: {
+        background: #eee;
+        };
+      }
+      .blue{
+        background-color: #C5CAE9;
+      }
     </style>
-    <paper-dialog>
-      <paper-dialog-scrollable>
-        <div class="vert flex">
-          <div class="horizon flex">
-            <iron-image src="{{profile_image}}" width=150 height=150 class="left" preload sizing="cover"></iron-image>
-          </div>
-          <div class="flex">{{description}}</div>
-          <div class="flex">
-            <iron-image src="{{image}}" class="fill" preload sizing="cover"></iron-image>
-          </div>
-          <div class="flex"></div>
-        </div>
-      </paper-dialog-scrollable>
-    </paper-dialog>
-
+    <paper-card class="vert">
+      <div>
+        <paper-item class="blue">Nana K</paper-item>  
+      </div>
+      <div class="post-padding">
+        <paper-item class="horizon"><span class="flex">Followers</span><span class="flex">Products</span></paper-item>
+        <paper-item class="horizon bolder big-font"><span class="flex">5,650</span><span class="flex">13</span></paper-item>
+      </div>
+    </paper-card>
   </template>
-
   <script>
     Polymer({
-      is: 'post-card',
+      is: 'profile-card-mid',
       properties:{
         title : {
           type : String,
@@ -130,11 +138,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type : String,
           value : ""
         },
-        profile_image : {
-          type : String,
-          value : ""
-        },
-        comments: {
+        images: {
           type : Array,
           value : []
         },
@@ -160,5 +164,3 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   </script>
 </dom-module>
-
-

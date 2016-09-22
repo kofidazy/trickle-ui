@@ -24,12 +24,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-swipeable-container/iron-swipeable-container.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="post-card">
+<dom-module id="post-card-mid">
   <template>
     <style include="shared-styles">
       :host {
         display: block;
-        padding: 10px;
+        padding: 0px;
+        border-bottom: thin solid #eee; 
       }
       .box{
         height: 300px;
@@ -38,6 +39,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style is="custom-style iron-flex iron-flex-alignment">
     paper-card{
       min-height: 150px;
+      margin-top: 0px;
+      margin-bottom: 0px;
 /*      max-width: 750px;
 */    }
       paper-card.rate { 
@@ -150,7 +153,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: 600;
       }
     </style>
-    <paper-card class="vert">
+    <paper-card class="vert" elevation="0">
       <div class="post-padding">
           <div class="horizon" on-tap="_fireModal">
             <span class="contain">
@@ -180,7 +183,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     Polymer({
-      is: 'post-card',
+      is: 'post-card-mid',
       properties:{
         title : {
           type : String,
