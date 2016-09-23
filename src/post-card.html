@@ -149,6 +149,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #78909C;
         font-weight: 600;
       }
+      #post_img{
+        margin-left: 10%;
+        margin-right: 10%;
+        width: 80%;
+        border-radius: 3px;
+      }
+      .occupy{
+        margin-left: 10%;
+        margin-right: 10%;
+        width: 80%;
+      }
     </style>
     <paper-card class="vert">
       <div class="post-padding">
@@ -159,17 +170,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span class="flex-6 bolder">Nana K <span class="handle">@tricklebot</span></span>
             <span class="flex"></span><span class="flex-2 bolder">2min</span>
           </div>
-          <p class="flex">#someTastyFood Let's just get ready @foodwars @naijajollof @ghanajollof @jollof</p>
+          <p class="occupy">#someTastyFood Let's just get ready @foodwars @naijajollof @ghanajollof @jollof</p>
           <div class="flex">
-            <img class="fill placeholder flex" src="http://thecatapi.com/api/images/get?format=src&type=gif"> 
+            <img id="post_img" class="placeholder" src="http://thecatapi.com/api/images/get?format=src&type=gif"> 
           </div>
           <!-- <iron-image class="fill" src="../images/bixel.jpg" sizing="cover"></iron-image> -->
-          <div class="horizon sector">
+          <div class="horizon occupy sector">
             <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><span class="flex count">90</span></span>
             <span class="horizon flex"><iron-icon id="comment_c" on-tap="toggle" class="flex" icon="vaadin-icons:comment"></iron-icon><span class="flex count">40</span></span>
             <span class="horizon flex"><iron-icon id="like" on-tap="like" class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">2K</span></span>
           </div>
-        <iron-collapse id="collapse">
+        <iron-collapse id="collapse" class="occupy">
           <paper-textarea class="fill" label="Comment"></paper-textarea>
           <paper-button raised label="Comment" class="fill">Comment</paper-button>
         </iron-collapse>
