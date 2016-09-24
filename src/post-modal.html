@@ -222,6 +222,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-response="new_post_handler"
       on-error="new_post_error"
       debounce-duration="3000"></iron-ajax>
+
+      <iron-ajax
+        id="user_ajax"
+        auto
+        url="{{url}}/user/id/57e503fce4b043a87c67575b"
+        handle-as="json"
+        method="GET"
+        last-response="{{last}}"
+        on-response="response_handler"
+        on-error="error_handler"
+        debounce-duration="3000"></iron-ajax>        
+
+        <iron-localstorage 
+        name="user"
+        value="{{user}}"
+        on-iron-localstorage-load-empty="find_user"></iron-localstorage>
+
+
   </template>
   <script>
     Polymer({
@@ -312,6 +330,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       new_post_error : function(){
         var response = this.$.new_post_ajax.lastResponse;
         this._toast("New Post failed");
+      },
+      find_user : function(){
+        this.$.user_ajax.generateRequest();
+      },
+      response_handler : function(){
+        var response = this.$.user_ajax.lastResponse;
+        this.user = response.result;
+        console.info(this.user);
+        this._toast("User loaded");
+      },
+      error_handler : function(){
+        var response = this.$.user_ajax.lastResponse;
+        console.error(response);
       }
     });
   </script>
