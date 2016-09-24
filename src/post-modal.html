@@ -289,7 +289,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       ready : function(){
         this.url = this.$.globals.baseUrl;
+        this.find_user();
         this.user = JSON.parse(localStorage.getItem("user"));
+        if (this.user == null) { this.find_user(); }
         console.info(this.user.username);
       },
       open : function(){
@@ -338,6 +340,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var response = this.$.user_ajax.lastResponse;
         this.user = response.result;
         console.info(this.user);
+        this.set('user', this.user);
         this._toast("User loaded");
       },
       error_handler : function(){
