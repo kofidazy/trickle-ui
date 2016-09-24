@@ -17,8 +17,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
+
+<link rel="import" href="app-globals.html">
+
+
 
 <link rel="import" href="shared-styles.html">
 
@@ -150,7 +157,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin-right: 1%;
           margin-left: 1%;
         }
-        paper-dialog{
+        paper-dialog{ 
           width: 100%;
           padding: 10px;
         }
@@ -185,6 +192,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: #2b2d42;
       }
     </style>
+    <app-globals id="globals"></app-globals>
     <paper-dialog class="margin-all" id="diag" modal>
       <paper-dialog-scrollable>
         <div class="vert flex">
@@ -192,21 +200,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span class="flex"></span><iron-icon class="flex1" on-tap="close" icon="vaadin-icons:close"></iron-icon>
           </div>
           <div id="text_space" class="flex">
-            <paper-textarea class="fill" label="Create new Post"></paper-textarea>
+            <paper-textarea id="message" class="fill" label="Create new Post" value="{{message}}"></paper-textarea>
           </div>
 <!--           <div class="flex">
             <iron-image src="{{image}}" class="fill" preload sizing="cover"></iron-image>
           </div> -->
           <div class="horizon sector">
             <span class="justice flex"><iron-icon class="flex" id="camera" icon="vaadin-icons:camera"></iron-icon></span>
-            <span class="justice flex"><paper-button class="post-btn" raised>Post</paper-button></span>
+            <span class="justice flex"><paper-button class="post-btn" on-tap="new_post" raised>Post</paper-button></span>
           </div>
         </div>
       </paper-dialog-scrollable>
     </paper-dialog>
-
+    <iron-ajax
+      id="new_post_ajax"
+      url="{{url}}/post/new"
+      handle-as="json"
+      content-type="application/json"
+      method="POST"
+      last-response="{{last}}"
+      on-response="new_post_handler"
+      on-error="new_post_error"
+      debounce-duration="3000"></iron-ajax>
   </template>
-
   <script>
     Polymer({
       is: 'post-modal',
@@ -247,9 +263,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tag : {
           type : String,
           value : ""
+        },
+        user : {
+          type: Object,
+          notify : true
         }
       },
       ready : function(){
+        this.url = this.$.globals.baseUrl;
+        this.user = JSON.parse(localStorage.getItem("user"));
+        console.info(this.user.username);
       },
       open : function(){
         this.$.diag.open();
@@ -259,6 +282,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       consoleprint : function(){
         console.log("hello");
+      },
+      new_post : function(){
+        var xhr = this.$.new_post_ajax;
+        console.log(this.user.id);
+        xhr.body = {
+          "user_id" : this.user.id,
+          "username" : this.user.username,
+          "userImage" : this.user.profilePicture,
+          "message" : this.$.message.value,
+          // "image" : this.$.password.value
+          // "comment_to_id" : this.$.password.value
+        }
+        xhr.generateRequest();
+        this.close();
+      },
+      _toast : function(data){
+        (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'mysignal', data: data});
+      },      
+      _reload : function(data){
+        this.fire('iron-signal', {name: 'reload', data: data});
+      },
+      new_post_handler: function(){
+        var response = this.$.new_post_ajax.lastResponse;
+        this._toast("New Post Created");
+        this._reload("success");
+        this.$.message.value = "";
+      },
+      new_post_error : function(){
+        var response = this.$.new_post_ajax.lastResponse;
+        this._toast("New Post failed");
       }
     });
   </script>

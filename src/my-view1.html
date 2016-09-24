@@ -19,6 +19,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" src="../bower_components/paper-fab-menu/paper-fab-menu.html">
 <link rel="import" src="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
+
+
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="post-card.html">
 <link rel="import" href="post-card-mid.html">
@@ -107,20 +111,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       as=item index-as=index
       filter="isHandler" sort="sortHandler" observe="itemField1 itemField2"> -->
       <app-globals id="globals"></app-globals>
+      <iron-signals on-iron-signal-reload="reloadPosts"></iron-signals>
       <div class="layout horizontal wrap">
       <div class="flex3">
         <sign-in-card class="flex"></sign-in-card>
         <profile-card-mid class="hide"></profile-card-mid>
-        <profile-card id="profile"></profile-card>
+        <profile-card id="profile" title="@{{user.username}}" followers="{{number_of_followers}}" products="7"></profile-card>
 
         <trending-card ></trending-card>
       </div>
       <div class="flex6">
       <div class="posts">
-        <post-card></post-card>
-        <post-card></post-card>
-        <post-card></post-card>
-        <post-card></post-card>
+        <template items="{{posts}}" as="post" is="dom-repeat">
+          <post-card message="{{post.message}}" username="{{post.username}}" likes="{{post.number_of_likes}}" image={{post.image}}></post-card>
+        </template>
       </div>
       <div class="hide">
         <post-card-mid></post-card-mid>
@@ -145,7 +149,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       last-response="{{last}}"
       on-response="response_handler"
       on-error="error_handler"
+      debounce-duration="3000"></iron-ajax>    
+
+      <iron-ajax
+      id="posts_ajax"
+      url="{{url}}/post/all/posts/{{user.id}}"
+      handle-as="json"
+      content-type="application/json"
+      method="GET"
+      last-response="{{last}}"
+      on-response="posts_handler"
+      on-error="posts_error"
       debounce-duration="3000"></iron-ajax>
+
+      <iron-ajax
+      id="find_followers_ajax"
+      url="{{url}}/post/all/posts/{{user.id}}"
+      handle-as="json"
+      content-type="application/json"
+      method="GET"
+      last-response="{{last}}"
+      on-response="followers_handler"
+      on-error="followers_error"
+      debounce-duration="3000"></iron-ajax>
+
+      <iron-localstorage 
+        id="local"
+        name="user"
+        value="{{user}}"
+        on-iron-localstorage-load-empty="initializeDefaultCartoon"></iron-localstorage>
      
     </template>  
 
@@ -156,10 +188,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         url : {
           type : String,
           value : ""
-        }
+        },
+        user: {
+          type: Object,
+          notify : true
+        },
+        posts : []
       },
       ready : function(){
         this.url = this.$.globals.baseUrl;
+        this.user = JSON.parse(localStorage.getItem("user"));
+        // this.user = this.$.local.value;
+        // this.$.local._handleStorage();
+        console.info(this.user);
+        this.$.posts_ajax.generateRequest();
+
       },
       response_handler : function(){
         var response = this.$.products_ajax.lastResponse;
@@ -169,9 +212,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var response = this.$.products_ajax.lastResponse;
         console.error(response);
       },
+      posts_handler : function(){
+        var response = this.$.posts_ajax.lastResponse;
+        this.posts = response.result;
+        console.info(response);
+      },
+      posts_error : function(){
+        var response = this.$.posts_ajax.lastResponse;
+        console.error(response);
+      },
       _fireModal : function(data){
         (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'modal', data: data});
       },
+      reloadPosts : function(){
+        this.$.posts_ajax.generateRequest();
+      }
     });
   </script>
 </dom-module>

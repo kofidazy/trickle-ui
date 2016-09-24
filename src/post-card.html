@@ -23,6 +23,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../bower_components/iron-swipeable-container/iron-swipeable-container.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/font-awesome-polymer-icons/fa-all.html">
+
 
 <dom-module id="post-card">
   <template>
@@ -167,18 +169,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span class="contain">
               <iron-image preload fade class="thumb placeholder" src="https://api.adorable.io/avatars/213/abott@adorable.io.png"></iron-image>
             </span>
-            <span class="flex-6 bolder">Nana K <span class="handle">@tricklebot</span></span>
+            <span class="flex-6 bolder"><span class="handle">@{{username}}</span></span>
             <span class="flex"></span><span class="flex-2 bolder">2min</span>
           </div>
-          <p class="occupy">#someTastyFood Let's just get ready @foodwars @naijajollof @ghanajollof @jollof</p>
+          <p class="occupy">{{message}}</p>
           <div class="flex">
-            <img id="post_img" class="placeholder" src="http://thecatapi.com/api/images/get?format=src&type=gif"> 
+            <img id="post_img" class="placeholder" src="{{image}}" hidden$="{{!image}}"> 
           </div>
           <!-- <iron-image class="fill" src="../images/bixel.jpg" sizing="cover"></iron-image> -->
           <div class="horizon occupy sector">
-            <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><span class="flex count">90</span></span>
-            <span class="horizon flex"><iron-icon id="comment_c" on-tap="toggle" class="flex" icon="vaadin-icons:comment"></iron-icon><span class="flex count">40</span></span>
-            <span class="horizon flex"><iron-icon id="like" on-tap="like" class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">2K</span></span>
+            <!-- <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><span class="flex count">90</span></span> -->
+            <span class="horizon flex"><iron-icon id="comment_c" on-tap="toggle" class="flex" icon="fa:retweet"></iron-icon><span class="flex count">{{reposts}}</span></span>
+            <span class="horizon flex"><iron-icon id="like" on-tap="like" class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">{{likes}}</span></span>
           </div>
         <iron-collapse id="collapse" class="occupy">
           <paper-textarea class="fill" label="Comment"></paper-textarea>
@@ -198,22 +200,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value : "",
           notify : true
         },
-        description : {
+        message : {
           type : String,
           value : "",
           notify : true
         },
-        images: {
-          type : Array,
-          value : [],
-          notify : true
-        },
-        price : {
+        image: {
           type : String,
           value : "",
           notify : true
         },
-        inStock:{
+        username : {
+          type : String,
+          value : "",
+          notify : true
+        },
+        likes:{
+          type : Number,
+          value : 0,
+          notify : true
+        },
+        reposts:{
           type : Number,
           value : 0,
           notify : true
