@@ -126,7 +126,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="flex6">
       <div class="posts">
         <template items="{{posts}}" as="post" is="dom-repeat">
-          <post-card message="{{post.message}}" username="{{post.username}}" likes="{{post.number_of_likes}}" image={{post.image}}></post-card>
+          <post-card message="{{post.message}}" username="{{post.username}}" likes="{{post.number_of_likes}}" image={{post.image}} date="{{_checkDate(post.dateCreated.millis,post.dateCreated.dayOfMonth,post.dateCreated.monthOfYear)}}"></post-card>
         </template>
       </div>
       <div class="hide">
@@ -229,6 +229,329 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       reloadPosts : function(){
         this.$.posts_ajax.generateRequest();
+      },
+      jodaMonth : function(jodaMonth){
+        var month;
+        switch (jodaMonth) {
+          case 1:
+            month = "Jan";
+            return month;
+          case 2:
+            month = "Feb";
+            return month;
+          case 3:
+            month = "Mar";
+            return month;
+          case 4:
+            month = "Apr";
+            return month;
+          case 5:
+            month = "May";
+            return month;
+          case 6:
+            month = "Jun";
+            return month;
+          case 7:
+            month = "Jul";
+            return month;
+          case 8:
+            month = "Aug";
+            return month;
+          case 9:
+            month = "Sep";
+            return month;
+          case 10:
+            month = "Oct";
+            return month;
+          case 11:
+            month = "Nov";
+            return month;
+          case 12:
+            month = "Dec";
+            return month;
+        }
+      },
+      _checkDate: function(millidate,day,month){
+        var d = new Date().getTime();
+        var c = millidate;
+        var e = d - c;
+        var time = 0;
+        switch (true) {
+            case (e < 60000):
+                time = "now";
+                break;
+            case (e < 120000):
+                time = "1m";
+                break;    
+            case (e < 180000):
+                time = "2m";
+                break;    
+            case (e < 240000):
+                time = "3m";
+                break;    
+            case (e < 300000):
+                time = "4m";
+                break;    
+            case (e < 360000):
+                time = "5m";
+                break;    
+            case (e < 420000):
+                time = "6m";
+                break;            
+            case (e < 480000):
+                time = "7m";
+                break;    
+            case (e < 540000):
+                time = "8m";
+                break;    
+            case (e < 600000):
+                time = "9m";
+                break;    
+            case (e < 660000):
+                time = "10m";
+                break;    
+            case (e < 720000):
+                time = "11m";
+                break;    
+            case (e < 780000):
+                time = "12m";
+                break;            
+            case (e < 840000):
+                time = "13m";
+                break;    
+            case (e < 900000):
+                time = "14m";
+                break;    
+            case (e < 960000):
+                time = "15m";
+                break;    
+            case (e < 1020000):
+                time = "16m";
+                break;    
+            case (e < 1080000):
+                time = "17m";
+                break;    
+            case (e < 1140000):
+                time = "18m";
+                break;            
+            case (e < 1200000):
+                time = "19m";
+                break;    
+            case (e < 1260000):
+                time = "20m";
+                break;    
+            case (e < 1320000):
+                time = "21m";
+                break;    
+            case (e < 1380000):
+                time = "22 m";
+                break;    
+            case (e < 1440000):
+                time = "23m";
+                break;    
+            case (e < 1500000):
+                time = "24m";
+                break;            
+            case (e < 1560000):
+                time = "25m";
+                break;    
+            case (e < 1620000):
+                time = "26m";
+                break;    
+            case (e < 1680000):
+                time = "27m";
+                break;    
+            case (e < 1740000):
+                time = "28m";
+                break;    
+            case (e < 1800000):
+                time = "29m";
+                break;    
+            case (e < 1860000):
+                time = "30m";
+                break;            
+            case (e < 1920000):
+                time = "31m";
+                break;    
+            case (e < 1980000):
+                time = "32m";
+                break;    
+            case (e < 2040000):
+                time = "33m";
+                break;    
+            case (e < 2100000):
+                time = "34m";
+                break;    
+            case (e < 2160000):
+                time = "35m";
+                break;    
+            case (e < 2220000):
+                time = "36m";
+                break;            
+            case (e < 2280000):
+                time = "37m";
+                break;    
+            case (e < 2340000):
+                time = "38m";
+                break;    
+            case (e < 2400000):
+                time = "39m";
+                break;    
+            case (e < 2460000):
+                time = "40m";
+                break;    
+            case (e < 2520000):
+                time = "41m";
+                break;    
+            case (e < 2580000):
+                time = "42m";
+                break;
+            case (e < 2640000):
+                time = "43m";
+                break;
+            case (e < 2700000):
+                time = "44m";
+                break;
+            case (e < 2760000):
+                time = "45m";
+                break;
+            case (e < 2820000):
+                time = "46m";
+                break;
+            case (e < 2880000):
+                time = "47m";
+                break;
+            case (e < 2940000):
+                time = "48m";
+                break;
+            case (e < 3000000):
+                time = "49m";
+                break;
+            case (e < 3060000):
+                time = "50m";
+                break;
+            case (e < 3120000):
+                time = "51m";
+                break;
+            case (e < 3180000):
+                time = "52m";
+                break;
+            case (e < 3240000):
+                time = "53m";
+                break;
+            case (e < 3300000):
+                time = "54m";
+                break;
+            case (e < 3360000):
+                time = "55m";
+                break;
+            case (e < 3420000):
+                time = "56m";
+                break;
+            case (e < 3480000):
+                time = "57m";
+                break;
+            case (e < 3540000):
+                time = "58m";
+                break;
+            case (e < 3600000):
+                time = "59m";
+                break;
+            case (e < 3600000):
+                time = "1h";
+                break;
+           case (e < 7200000):
+                time = "2h";
+                break;
+            case (e < 10800000):
+                time = "3h";
+                break;
+            case (e < 14400000):
+                time = "4h";
+                break;
+            case (e < 18000000):
+                time = "5h";
+                break;
+            case (e < 21600000):
+                time = "6h";
+                break;
+            case (e < 25200000):
+                time = "7h";
+                break;
+            case (e < 28800000):
+                time = "8h";
+                break;
+            case (e < 32400000):
+                time = "9h";
+                break;
+            case (e < 36000000):
+                time = "10h";
+                break;
+            case (e < 39600000):
+                time = "11h";
+                break;
+            case (e < 43200000):
+                time = "12h";
+                break;
+            case (e < 46800000):
+                time = "13h";
+                break;
+            case (e < 50400000):
+                time = "14h";
+                break;
+            case (e < 54000000):
+                time = "15h";
+                break;
+            case (e < 57600000):
+                time = "16h";
+                break;
+            case (e < 61200000):
+                time = "17h";
+                break;
+            case (e < 64800000):
+                time = "18h";
+                break;
+            case (e < 68400000):
+                time = "19h";
+                break;
+            case (e < 72000000):
+                time = "20h";
+                break;
+            case (e < 75600000):
+                time = "21h";
+                break;
+            case (e < 79200000):
+                time = "22h";
+                break;
+            case (e < 82800000):
+                time = "23h";
+                break;
+            case (e < 86400000):
+                time = "1d";
+                break;
+            case (e < 172800000):
+                time = "2d";
+                break;
+            case (e < 259200000):
+                time = "3d";
+                break;
+            case (e < 345600000):
+                time = "4d";
+                break;
+            case (e < 432000000):
+                time = "5d";
+                break;
+            case (e < 518400000):
+                time = "6d";
+                break;
+            case (e > 518400000):
+                time = day + " - " + this.jodaMonth(month);
+                break;
+            default: 
+                time = "Not Available";
+                break;
+        }
+        return time;
       }
     });
   </script>
