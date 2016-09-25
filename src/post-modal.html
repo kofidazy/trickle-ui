@@ -338,6 +338,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       response_handler : function(){
         var response = this.$.user_ajax.lastResponse;
+        console.info("postmodal is printing: " + JSON.stringify(response));
         this.user = response.result;
         console.info(this.user);
         this.set('user', this.user);
