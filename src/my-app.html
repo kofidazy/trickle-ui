@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="my-icons.html">
 <link rel="import" href="modal-card.html">
-<!-- <link rel="import" href="post-modal.html"> -->
+<link rel="import" href="post-modal.html">
 <link rel="import" href="app-globals.html">
 <link rel="import" href="user-data.html">
 
@@ -157,6 +157,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
     </style>
     <app-globals id="globals"></app-globals>
+        <iron-ajax
+        id="user_ajax"
+        auto
+        url="{{url}}/user/id/57e503fce4b043a87c67575b"
+        handle-as="json"
+        method="GET"
+        last-response="{{last}}"
+        on-response="response_handler"
+        on-error="error_handler"
+        debounce-duration="3000"></iron-ajax>
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
@@ -212,7 +222,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-signals on-iron-signal-mysignal="_handleEvent"></iron-signals>
     <iron-signals on-iron-signal-modal="_handleModal"></iron-signals>
     <modal-card id="modal"></modal-card>
-    <post-modal id="post_modal"></post-modal>
+    <post-modal id="post_modal" user="[[user]]"></post-modal>
 
 <!--    <iron-localstorage 
         name="user"
@@ -221,17 +231,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <user-data
         id="user_data"
         user="{{user}}"></user-data>
-
-      <iron-ajax
-        id="user_ajax"
-        auto
-        url="{{url}}/user/id/57e503fce4b043a87c67575b"
-        handle-as="json"
-        method="GET"
-        last-response="{{last}}"
-        on-response="response_handler"
-        on-error="error_handler"
-        debounce-duration="3000"></iron-ajax>
 
   </template>
 
@@ -257,7 +256,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready : function(){
         this.url = this.$.globals.baseUrl;
         this.find_user();
-        this.$
+        
         // this.user = JSON.parse(localStorage.getItem("user"));
       },
 
@@ -313,6 +312,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       response_handler : function(){
         var response = this.$.user_ajax.lastResponse;
         this.user = response.result;
+        console.info("saving user to local storage");
+        this.$.user_data.user = this.user;
         console.info(this.user);
       },
       error_handler : function(){

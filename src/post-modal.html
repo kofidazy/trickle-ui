@@ -221,23 +221,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       last-response="{{last}}"
       on-response="new_post_handler"
       on-error="new_post_error"
-      debounce-duration="3000"></iron-ajax>
-
-      <iron-ajax
-        id="user_ajax"
-        auto
-        url="{{url}}/user/id/57e503fce4b043a87c67575b"
-        handle-as="json"
-        method="GET"
-        last-response="{{last}}"
-        on-response="response_handler"
-        on-error="error_handler"
-        debounce-duration="3000"></iron-ajax>        
-
-        <iron-localstorage 
-        name="user"
-        value="{{user}}"
-        on-iron-localstorage-load-empty="find_user"></iron-localstorage>
+      debounce-duration="3000"></iron-ajax>       
 
 
   </template>
@@ -282,17 +266,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type : String,
           value : ""
         },
-        user : {
-          type: Object,
-          notify : true
-        }
+        user : Object,
       },
       ready : function(){
         this.url = this.$.globals.baseUrl;
-        this.find_user();
-        this.user = JSON.parse(localStorage.getItem("user"));
-        if (this.user == null) { this.find_user(); }
-        console.info(this.user.username);
+        // this.find_user();
+        // this.user = JSON.parse(localStorage.getItem("user"));
+        // if (this.user == null) { this.find_user(); }
+        // console.info(this.user.username);
       },
       open : function(){
         this.$.diag.open();

@@ -15,19 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="user-data">
 
   <template>
-
     <app-localstorage-document key="user-data" data="{{user}}"></app-localstorage-document>
-
-        <iron-ajax
-        id="user_ajax"
-        auto
-        url="{{url}}/user/id/57e503fce4b043a87c67575b"
-        handle-as="json"
-        method="GET"
-        last-response="{{last}}"
-        on-response="response_handler"
-        on-error="error_handler"
-        debounce-duration="3000"></iron-ajax>
   </template>
 
   <script>
@@ -59,8 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         user : {
-          type : Object,
-          value : null
+          type : Object
         }
 
       },
