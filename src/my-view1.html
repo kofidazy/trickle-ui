@@ -192,20 +192,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type : String,
           value : ""
         },
-        user: {
-          type: Object,
-          notify : true
-        },
+        user: Object,
         posts : []
       },
       ready : function(){
         this.url = this.$.globals.baseUrl;
-        this.user = JSON.parse(localStorage.getItem("user"));
+        // this.user = JSON.parse(localStorage.getItem("user"));
         // this.user = this.$.local.value;
         // this.$.local._handleStorage();
         console.info(this.user);
         this.$.posts_ajax.generateRequest();
-
       },
       response_handler : function(){
         var response = this.$.products_ajax.lastResponse;

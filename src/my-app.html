@@ -41,6 +41,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="modal-card.html">
 <!-- <link rel="import" href="post-modal.html"> -->
 <link rel="import" href="app-globals.html">
+<link rel="import" href="user-data.html">
+
 
 <dom-module id="my-app">
   <template>
@@ -197,7 +199,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="view1"
             role="main">
-          <my-view1 name="view1"></my-view1>
+          <my-view1 name="view1" user="[[user]]"></my-view1>
           <my-view2 name="view2"></my-view2>
           <my-view3 name="view3"></my-view3>
           <my-view404 name="view404"></my-view404>
@@ -212,10 +214,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <modal-card id="modal"></modal-card>
     <post-modal id="post_modal"></post-modal>
 
-      <iron-localstorage 
+<!--    <iron-localstorage 
         name="user"
         value="{{user}}"
-        on-iron-localstorage-load-empty="find_user"></iron-localstorage>
+        on-iron-localstorage-load-empty="find_user"></iron-localstorage> -->
+        <user-data
+        id="user_data"
+        user="{{user}}"></user-data>
 
       <iron-ajax
         id="user_ajax"
@@ -251,7 +256,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       ready : function(){
         this.url = this.$.globals.baseUrl;
-        this.user = JSON.parse(localStorage.getItem("user"));
+        this.find_user();
+        this.$
+        // this.user = JSON.parse(localStorage.getItem("user"));
       },
 
       observers: [
