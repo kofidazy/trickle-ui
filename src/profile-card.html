@@ -111,13 +111,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
       }
     </style>
-    <paper-card class="vert" heading="{{title}}">
+    <iron-ajax
+      id="posts_ajax"
+      url="{{url}}/post/all/posts/{{user.id}}"
+      handle-as="json"
+      content-type="application/json"
+      method="GET"
+      last-response="{{last}}"
+      on-response="posts_handler"
+      on-error="posts_error"
+      debounce-duration="3000"></iron-ajax>
+    <paper-card class="vert" heading="@{{user.username}}">
       <div>
         <img class="fill flex" src="https://api.adorable.io/avatars/213/abott@adorable.io.png">  
       </div>
       <div class="post-padding">
         <paper-item class="horizon"><span class="flex">Posts</span><span class="flex">Followers</span><span class="flex">Products</span></paper-item>
-        <paper-item class="horizon bolder big-font"><span class="flex">500</span><span class="flex">{{followers}}</span><span class="flex">{{products}}</span></paper-item>
+        <paper-item class="horizon bolder big-font"><span class="flex">{{posts}}</span><span class="flex">{{user.number_of_followers}}</span><span class="flex">{{products}}</span></paper-item>
       </div>
     </paper-card>
   </template>
@@ -125,24 +135,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'profile-card',
       properties:{
-        title : {
-          type : String,
-          value : "",
-          notify : true
-        },
-        description : {
-          type : String,
-          value : "",
-          notify : true
-        },
-        image: {
-          type : String,
-          value : "",
-          notify : true
-        },
-        price : {
-          type : String,
-          value : "",
+        posts : {
+          type : Number,
           notify : true
         },
         inStock:{
@@ -154,19 +148,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type : Boolean,
           value : false
         },
-        followers : {
-          type : Number,
-          value : 0,
-          notify : true
-        },
         products : {
           type : Number,
           value : 0,
           notify : true
-        }
+        },
+        user : Object,
+        url : String
       },
       ready : function(){
-
+        this.$.posts_ajax.generateRequest();
+      },
+      posts_handler : function(){
+        var response = this.$.posts_ajax.lastResponse;
+        this.posts = response.result;
+        console.info("got profile posts");
+      },
+      posts_error : function(){
+        var response = this.$.posts_ajax.lastResponse;
+        console.error(response);
+      },
+      _getSize : function(array){
+        return array.length;
       }
     });
   </script>

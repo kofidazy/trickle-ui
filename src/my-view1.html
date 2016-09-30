@@ -117,16 +117,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <iron-signals on-iron-signal-reload="reloadPosts"></iron-signals>
       <div class="layout horizontal wrap">
       <div class="flex3">
-        <sign-in-card class="flex"></sign-in-card>
+        <sign-in-card id="login" class="flex" visible$="[[_hasUser]]"></sign-in-card>
         <profile-card-mid class="hide"></profile-card-mid>
-        <profile-card id="profile" title="@{{user.username}}" followers="{{number_of_followers}}" products="7"></profile-card>
+        <profile-card user="{{user}}" url="{{url}}" id="profile" products="7"></profile-card>
 
         <trending-card ></trending-card>
       </div>
       <div class="flex6">
       <div class="posts">
         <template items="{{posts}}" as="post" is="dom-repeat">
-          <post-card message="{{post.message}}" username="{{post.username}}" likes="{{post.number_of_likes}}" image={{post.image}} date="{{_checkDate(post.dateCreated.millis,post.dateCreated.dayOfMonth,post.dateCreated.monthOfYear)}}"></post-card>
+          <post-card user="{{user}}" postObject="{{post}}" message="{{post.message}}" username="{{post.username}}" reposts="{{post.number_of_reposts}}" likes="{{post.number_of_likes}}" image={{post.image}} date="{{_checkDate(post.dateCreated.millis,post.dateCreated.dayOfMonth,post.dateCreated.monthOfYear)}}"></post-card>
         </template>
       </div>
       <div class="hide">
@@ -176,11 +176,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-error="followers_error"
       debounce-duration="3000"></iron-ajax>
 
-      <iron-localstorage 
+<!--       <iron-localstorage 
         id="local"
         name="user"
         value="{{user}}"
-        on-iron-localstorage-load-empty="initializeDefaultCartoon"></iron-localstorage>
+        on-iron-localstorage-load-empty="initializeDefaultCartoon"></iron-localstorage> -->
      
     </template>  
 
@@ -192,16 +192,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type : String,
           value : ""
         },
-        user: Object,
-        posts : []
+        user:  Object,
+        posts : [],
+        _hasUser: {
+          type: Boolean,
+          computed: '_isUserNull()'
+        }
       },
       ready : function(){
         this.url = this.$.globals.baseUrl;
         // this.user = JSON.parse(localStorage.getItem("user"));
         // this.user = this.$.local.value;
         // this.$.local._handleStorage();
-        console.info(this.user);
-        this.$.posts_ajax.generateRequest();
+        // console.info(this.user);
+        (this.user !== null) ? this.$.posts_ajax.generateRequest() : _toast("User not ready");
       },
       response_handler : function(){
         var response = this.$.products_ajax.lastResponse;
@@ -214,6 +218,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       posts_handler : function(){
         var response = this.$.posts_ajax.lastResponse;
         this.posts = response.result;
+        this.$.profile.posts = response.result.length;
         console.info(response);
       },
       posts_error : function(){
@@ -223,8 +228,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _fireModal : function(data){
         (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'modal', data: data});
       },
+      _toast : function(data){
+        (data == null) ? console.log("empty data") : this.fire('iron-signal', {name: 'mysignal', data: data});
+      },
       reloadPosts : function(){
         this.$.posts_ajax.generateRequest();
+      },
+      _isUserNull : function(){
+        return false;
       },
       jodaMonth : function(jodaMonth){
         var month;

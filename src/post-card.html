@@ -197,6 +197,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-card>
 
+        <iron-ajax
+        id="like_ajax"
+        url="{{url}}/post/like/{{postObject.id}}/{{user.id}}"
+        handle-as="json"
+        method="GET"
+        last-response="{{last}}"
+        on-response="response_handler"
+        on-error="error_handler"
+        debounce-duration="3000"></iron-ajax>
+
   </template>
 
   <script>
@@ -261,7 +271,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         date : {
           type : Date        
-        }
+        },
+        postObject : Object,
+        user : Object
       },
       listeners: {
         // this event is fired when the animation finishes
@@ -295,6 +307,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       like : function(){
         this.toggleClass("icon-tap",true,this.$.like);
+        this.$.like_ajax.generateRequest();
+      },
+      response_handler : function(){
+        var response = this.$.like_ajax.lastResponse;
+        // this.user = response.result;
+        // console.info("saving user to local storage");
+        // this.$.user_data.user = this.user;
+        // console.info(this.user);
+      },
+      error_handler : function(){
+        var response = this.$.like_ajax.lastResponse;
+        console.error(response);
       }
     });
   </script>
