@@ -117,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <iron-signals on-iron-signal-reload="reloadPosts"></iron-signals>
       <div class="layout horizontal wrap">
       <div class="flex3">
-        <sign-in-card id="login" class="flex" visible$="[[_hasUser]]"></sign-in-card>
+        <sign-in-card id="login" class="flex" hidden></sign-in-card>
         <profile-card-mid class="hide"></profile-card-mid>
         <profile-card user="{{user}}" url="{{url}}" id="profile" products="7"></profile-card>
 
@@ -205,7 +205,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // this.user = this.$.local.value;
         // this.$.local._handleStorage();
         // console.info(this.user);
-        (this.user !== null) ? this.$.posts_ajax.generateRequest() : _toast("User not ready");
+        // (this.user == null) ? this.$.posts_ajax.generateRequest() : _toast("User not ready");
+        if (this.user != null) this.$.posts_ajax.generateRequest();
       },
       response_handler : function(){
         var response = this.$.products_ajax.lastResponse;

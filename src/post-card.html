@@ -147,6 +147,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .icon-tap{
         color: red;
       }
+
+      .repost-tap{
+        color: green;
+      }
       iron-icon{
         color: #607D8B;
       }
@@ -186,7 +190,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="horizon occupy sector">
             <!-- <span class="horizon flex"><iron-icon class="flex" icon="vaadin-icons:connect"></iron-icon><span class="flex count">90</span></span> -->
             <!-- <span class="flex1"></span> -->
-            <span class="horizon flex"><iron-icon id="comment_c" on-tap="toggle" class="flex" icon="fa:retweet"></iron-icon><span class="flex count">{{reposts}}</span></span>
+            <span class="horizon flex"><iron-icon id="repost" on-tap="repost" class="flex" icon="fa:retweet"></iron-icon><span class="flex count">{{reposts}}</span></span>
             <span class="horizon flex"><iron-icon id="like" on-tap="like" class="flex" icon="vaadin-icons:heart"></iron-icon><span class="flex count">{{likes}}</span></span>
             <!-- <span class="flex1"></span> -->
           </div>
@@ -273,7 +277,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type : Date        
         },
         postObject : Object,
-        user : Object
+        user : Object,
+        likeCheck : {
+          type : Boolean,
+          value : false
+        },
+        repostCheck : {
+          type : Boolean,
+          value : false
+        }
       },
       listeners: {
         // this event is fired when the animation finishes
@@ -306,8 +318,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return 'flex '+color || 'flex';
       },
       like : function(){
-        this.toggleClass("icon-tap",true,this.$.like);
+        // this.toggleClass("icon-tap",true,this.$.like);
+        if(!this.likeCheck){
+          this.likes++;
+          this.likeCheck = true;
+          this.toggleClass("icon-tap",true,this.$.like);
+        }else{
+          this.likes--;
+          this.likeCheck = false;
+          this.toggleClass("icon-tap",false,this.$.like);
+        }
         this.$.like_ajax.generateRequest();
+      },
+      repost : function(){
+        // this.toggleClass("icon-tap",true,this.$.like);
+        if(!this.repostCheck){
+          this.reposts++;
+          this.repostCheck = true;
+          this.toggleClass("repost-tap",true,this.$.repost);
+        }else{
+          this.reposts--;
+          this.repostCheck = false;
+          this.toggleClass("repost-tap",false,this.$.repost);
+        }
+        // this.$.like_ajax.generateRequest();
       },
       response_handler : function(){
         var response = this.$.like_ajax.lastResponse;
