@@ -126,7 +126,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="flex6">
       <div class="posts">
         <template items="{{posts}}" as="post" is="dom-repeat">
-          <post-card url="{{url}}" user="{{user}}" id="{{post.id}}" message="{{post.message}}" username="{{post.username}}" like-check={{post.alreadyLiked}} reposts="{{post.number_of_reposts}}" likes="{{post.number_of_likes}}" image={{post.image}} date="{{_checkDate(post.dateCreated.millis,post.dateCreated.dayOfMonth,post.dateCreated.monthOfYear)}}"></post-card>
+          <post-card url="{{url}}" user="{{user}}" id="{{post.id}}" message="{{post.message}}" username="{{post.username}}" like-check={{post.alreadyLiked}} repost-check="{{post.alreadyReposted}}" reposts="{{post.number_of_reposts}}" likes="{{post.number_of_likes}}" image={{post.image}} date="{{_checkDate(post.dateCreated.millis,post.dateCreated.dayOfMonth,post.dateCreated.monthOfYear)}}"></post-card>
         </template>
       </div>
       <div class="hide">

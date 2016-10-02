@@ -211,6 +211,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         on-error="error_handler"
         debounce-duration="3000"></iron-ajax>
 
+        <iron-ajax
+        id="repost_ajax"
+        url="{{url}}/post/repost/{{id}}/{{user.id}}"
+        handle-as="json"
+        method="GET"
+        last-response="{{last}}"
+        on-response="repost_response_handler"
+        on-error="repost_error_handler"
+        debounce-duration="3000"></iron-ajax>
+
   </template>
 
   <script>
@@ -307,6 +317,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.playAnimation();
         console.log(this.likeCheck)
         if (this.likeCheck == true) this.toggleClass("icon-tap",true,this.$.like);
+        if (this.repostCheck == true) this.toggleClass("repost-tap",true,this.$.repost);
         // console.log("postId----"+ this.id)
       },
       toggle: function() {
@@ -351,7 +362,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.repostCheck = false;
           this.toggleClass("repost-tap",false,this.$.repost);
         }
-        // this.$.like_ajax.generateRequest();
+        this.$.repost_ajax.generateRequest();
       },
       response_handler : function(){
         var response = this.$.like_ajax.lastResponse;
@@ -361,6 +372,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       error_handler : function(){
         var response = this.$.like_ajax.lastResponse;
+        console.error(response);
+      },
+      repost_response_handler : function(){
+        var response = this.$.repost_ajax.lastResponse;
+        console.log(this.repostCheck);
+      },
+      repost_error_handler : function(){
+        var response = this.$.repost_ajax.lastResponse;
         console.error(response);
       }
     });
