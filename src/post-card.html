@@ -203,7 +203,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <iron-ajax
         id="like_ajax"
-        url="{{url}}/post/like/{{postObject.id}}/{{user.id}}"
+        url="{{url}}/post/like/{{id}}/{{user.id}}"
         handle-as="json"
         method="GET"
         last-response="{{last}}"
@@ -285,6 +285,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         repostCheck : {
           type : Boolean,
           value : false
+        },
+        id: {
+          type : String,
+          value : "",
+          notify : true
         }
       },
       listeners: {
@@ -300,6 +305,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       ready : function(){
         this.playAnimation();
+        console.log(this.likeCheck)
+        if (this.likeCheck == true) this.toggleClass("icon-tap",true,this.$.like);
+        // console.log("postId----"+ this.id)
       },
       toggle: function() {
         this.$.collapse.toggle();
@@ -328,7 +336,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.likeCheck = false;
           this.toggleClass("icon-tap",false,this.$.like);
         }
+        console.log(this.postObject);
         this.$.like_ajax.generateRequest();
+        // console.log()
       },
       repost : function(){
         // this.toggleClass("icon-tap",true,this.$.like);
@@ -345,10 +355,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       response_handler : function(){
         var response = this.$.like_ajax.lastResponse;
-        // this.user = response.result;
-        // console.info("saving user to local storage");
-        // this.$.user_data.user = this.user;
-        // console.info(this.user);
+        console.log(response);
+        console.log(this.$.postObject);
+        console.log(this.$.like_ajax.url);
       },
       error_handler : function(){
         var response = this.$.like_ajax.lastResponse;

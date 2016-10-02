@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
+<link rel="import" href="../bower_components/font-awesome-polymer-icons/fa-all.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="app-globals.html">
 
@@ -106,6 +107,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .fill{
         width: 100%;
       }
+      iron-icon{
+        margin-right: 15px;
+      }
     </style>
     <app-globals id="globals"></app-globals>
     <paper-card id="signInCard" class="flex">
@@ -113,10 +117,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-collapse id="collapse">
           <div>
           <paper-item>
-            <paper-input id="username" label="Username" value="{{username}}" type="text"></paper-input>
+            <paper-input id="username" label="Username" value="{{username}}" type="text">
+              <iron-icon icon="fa:user" prefix></iron-icon>
+            </paper-input>
           </paper-item>
           <paper-item>
-            <paper-input id="password" label="Password" value="{{password}}" type="password"></paper-input>
+            <paper-input id="password" label="Password" value="{{password}}" type="password">
+              <iron-icon icon="fa:lock" prefix></iron-icon>
+            </paper-input>
           </paper-item>
           <paper-item class="margin-t-b">
             <paper-button on-tap="toggle">Cancel</paper-button>
